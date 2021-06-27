@@ -3,18 +3,25 @@ package com.example.bookingflats.di
 
 import com.example.bookingflats.common.data.local.ApplicationLocalDataSource
 import com.example.bookingflats.common.data.local.IApplicationLocalDataSource
+import com.example.bookingflats.common.data.local.IFlatsLocalDataSource
 import com.example.bookingflats.common.data.remote.ApplicationRemoteDataSource
 import com.example.bookingflats.common.data.remote.IApplicationRemoteDataSource
+import com.example.bookingflats.common.data.remote.IFlatsRemoteDataSource
+import com.example.bookingflats.features.flats.module.data.FlatsRepository
+import com.example.bookingflats.features.flats.module.data.IFlatsRepository
+import com.example.bookingflats.features.flats.module.usecase.GetFlatsUseCase
+import com.example.bookingflats.features.flats.screens.flats.FlatsViewModel
+import com.example.bookingflats.features.flats.screens.main.MainViewModel
+import org.koin.androidx.experimental.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import org.koin.experimental.builder.factory
 import java.util.*
 
 object FeaturesKoinModules {
 
     private lateinit var appNetworkModule: Module
     private lateinit var appCacheModule: Module
-    private lateinit var appAnalyticsModule: Module
-    private lateinit var appDestinationsModule: Module
 
     val allModules: ArrayList<Module>
         get() {
@@ -23,8 +30,19 @@ object FeaturesKoinModules {
             // general
             list.add(appCacheModule)
             list.add(appNetworkModule)
-            list.add(appAnalyticsModule)
-            list.add(appDestinationsModule)
+
+            // flats
+            list.add(module {
+                //view models
+                viewModel<MainViewModel>()
+                viewModel<FlatsViewModel>()
+
+                //use cases
+                factory<GetFlatsUseCase>()
+
+                //repositories
+                factory<IFlatsRepository> { FlatsRepository(get(), get()) }
+            })
 
             return list
         }
@@ -45,12 +63,14 @@ object FeaturesKoinModules {
                     get()
                 )
             }
+            single<IFlatsLocalDataSource> { get<IApplicationLocalDataSource>() }
         }
     }
 
     private fun initAppNetworkModule() {
         appNetworkModule = module {
             single<IApplicationRemoteDataSource> { ApplicationRemoteDataSource(get()) }
+            single<IFlatsRemoteDataSource> { get<IApplicationRemoteDataSource>() }
         }
     }
 }

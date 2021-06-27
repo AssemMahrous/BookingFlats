@@ -7,8 +7,6 @@ interface IPermissionsManager {
 
     fun checkLocationPermission(): Boolean
 
-    fun reportRequestForLocationPermission(trackingSource: String)
-
     fun registerForLocationPermission(
             fragment: Fragment,
             onResult: (isPermissionGranted: Boolean,

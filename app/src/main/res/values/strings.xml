@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BookingFlats</string>
+    <string name="no_results">No results 😓</string>
+    <string name="apartment_name">Apartment Name:</string>
+    <string name="distance">Distance:</string>
+    <string name="number_of_bedrooms">Number of bedrooms:</string>
 </resources>

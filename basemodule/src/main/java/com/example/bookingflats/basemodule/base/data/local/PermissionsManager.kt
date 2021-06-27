@@ -16,9 +16,6 @@ class PermissionsManager : IPermissionsManager {
 
     override fun checkLocationPermission() = checkPermission(ACCESS_FINE_LOCATION)
 
-    override fun reportRequestForLocationPermission(trackingSource: String) {
-    }
-
     override fun registerForLocationPermission(
             fragment: Fragment,
             onResult: (isPermissionGranted: Boolean, isNeverAskAgainChecked: Boolean) -> Unit

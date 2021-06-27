@@ -47,7 +47,8 @@ ext {
     navigation = "2.3.4"
 
     // Paging
-    pagingVersion = "3.0.0-alpha12"
+    pagingVersion = "3.0.0"
+    roomVersion = '2.3.0'
 
     // Card io
     cardIO = "5.5.1"

@@ -109,6 +109,12 @@ dependencies {
     api "com.github.bumptech.glide:glide:$rootProject.ext.glide"
     kapt "com.github.bumptech.glide:compiler:$rootProject.ext.glide"
 
+    // paging and room
+    api "androidx.room:room-runtime:$rootProject.ext.roomVersion"
+    api "androidx.room:room-ktx:$rootProject.ext.roomVersion"
+    api "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
+    kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
+
     // Material design
     implementation "com.google.android.material:material:$rootProject.ext.materialVersion"
 }

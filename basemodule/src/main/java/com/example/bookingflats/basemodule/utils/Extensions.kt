@@ -17,33 +17,26 @@ import androidx.navigation.fragment.findNavController
 import com.example.bookingflats.basemodule.BuildConfig
 import com.example.bookingflats.basemodule.R
 import com.example.bookingflats.basemodule.base.data.model.ApplicationMessage
-import org.koin.core.qualifier.Qualifier
-import java.util.*
-import kotlin.reflect.KClass
 import com.example.bookingflats.basemodule.base.di.AppConfigurationModule.isDebug
 import okhttp3.Headers
 import okhttp3.internal.toHeaderList
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import java.math.BigDecimal
+import org.koin.core.qualifier.Qualifier
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
+import kotlin.reflect.KClass
 
 private val sdfWithSeconds = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
     .apply { timeZone = TimeZone.getTimeZone("UTC") }
 private val sdfWithoutSeconds = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.ENGLISH)
     .apply { timeZone = TimeZone.getTimeZone("UTC") }
 
-fun Any?.isNull(): Boolean = this == null
-
-fun Any?.isNotNull(): Boolean = this != null
-
-fun View.show() {
-    visibility = View.VISIBLE
-}
-
-fun View.hide() {
-    visibility = View.GONE
-}
 
 inline fun isDebug(block: () -> Unit) {
     if (isDebug && BuildConfig.BUILD_TYPE.contains("debug", ignoreCase = true)) block()
@@ -51,10 +44,6 @@ inline fun isDebug(block: () -> Unit) {
 
 inline fun isNotDebug(block: () -> Unit) {
     if (!isDebug || !BuildConfig.BUILD_TYPE.contains("debug", ignoreCase = true)) block()
-}
-
-inline fun isDebugOrBeta(block: () -> Unit) {
-    if (isDebug) block()
 }
 
 fun <T : Any> Class<T>?.getKClass(): KClass<T>? = this?.kotlin
@@ -225,3 +214,19 @@ fun Headers?.toHashMap() =
             this[header.name.utf8()] = header.value.utf8()
         }
     }
+
+fun getDistance(lng1: Double, lat1: Double, lng2: Double, lat2: Double): Double {
+    val df = DecimalFormat("#.##")
+    val earthRadius = 3958.75
+    val latDiff = Math.toRadians(lat2 - lat1)
+    val lngDiff = Math.toRadians(lng2 - lng1)
+    val a = sin(latDiff / 2) * sin(latDiff / 2) +
+            cos(Math.toRadians(lat1)) * cos(Math.toRadians(lat2)) *
+            sin(lngDiff / 2) * sin(lngDiff / 2)
+    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    val distance = earthRadius * c
+
+    val meterConversion = 1609
+
+    return df.format(distance * meterConversion).toDouble()
+}
