@@ -210,3 +210,7 @@ fun convertLongToTime(time: Long): String {
     val format = SimpleDateFormat("yyyy.MM.dd")
     return format.format(date)
 }
+
+fun currentTimeToLong(): Long {
+    return System.currentTimeMillis()
+}

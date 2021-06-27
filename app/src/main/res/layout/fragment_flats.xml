@@ -7,14 +7,6 @@
     android:background="@color/white_secondary"
     tools:context=".features.flats.screens.flats.FlatsFragment">
 
-    <ImageView
-        android:id="@+id/filter"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_filter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
@@ -28,7 +20,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="UnusedAttribute" />
 
     <ProgressBar

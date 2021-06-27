@@ -3,21 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/nav_flats_fragment">
+    app:startDestination="@id/nav_preview_fragment">
+
+    <fragment
+        android:id="@+id/nav_preview_fragment"
+        android:name="com.example.bookingflats.features.flats.screens.preview.PreviewFragment"
+        android:label="fragment_preview"
+        tools:layout="@layout/fragment_preview">
+        <action
+            android:id="@+id/action_nav_preview_fragment_to_nav_flats_fragment"
+            app:destination="@id/nav_flats_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_flats_fragment"
         android:name="com.example.bookingflats.features.flats.screens.flats.FlatsFragment"
         android:label="fragment_flats"
         tools:layout="@layout/fragment_flats">
-        <action
-            android:id="@+id/action_nav_flats_fragment_to_nav_filter_fragment"
-            app:destination="@id/nav_filter_fragment" />
-    </fragment>
+        <argument
+            android:name="filterOption"
+            app:argType="com.example.bookingflats.features.flats.module.domain.FilterOption" />
 
-    <dialog
-        android:id="@+id/nav_filter_fragment"
-        android:name="com.example.bookingflats.features.flats.screens.filter.FilterFragment"
-        android:label="fragment_filter"
-        tools:layout="@layout/fragment_filter" />
+    </fragment>
 
 </navigation>

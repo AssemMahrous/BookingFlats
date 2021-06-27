@@ -22,10 +22,10 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.bookingflats.basemodule.Result
-import com.example.bookingflats.common.data.local.db.BookingFlatsDatabase
+import com.example.bookingflats.basemodule.base.data.local.BookingFlatsDatabase
+import com.example.bookingflats.basemodule.base.data.model.FlatDbEntity
 import com.example.bookingflats.features.flats.module.Mapper.toFlatDbEntity
 import com.example.bookingflats.features.flats.module.domain.Flat
-import com.example.bookingflats.features.flats.module.domain.FlatDbEntity
 import retrofit2.HttpException
 import java.io.IOException
 

@@ -35,7 +35,7 @@ class FlatsAdapter(private val onItemClick: (FlatView) -> Unit) :
                     tv_bedroom_value.text = item.bedrooms.toString()
                     tv_name_value.text = item.name
                     tv_distance_value.text = item.distance.toString()
-                    itemView.setOnClickListener {
+                    button_book.setOnClickListener {
                         onItemClick(item)
                     }
                 }

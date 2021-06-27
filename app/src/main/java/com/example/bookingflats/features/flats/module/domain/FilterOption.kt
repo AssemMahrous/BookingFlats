@@ -6,7 +6,7 @@ import java.io.Serializable
 
 @Parcelize
 data class FilterOption(
-    val startDate: Long?,
-    val endDate: Long?,
+    val startDate: Long,
+    val endDate: Long,
     val numberOfBedrooms: Int?
 ) : Parcelable, Serializable

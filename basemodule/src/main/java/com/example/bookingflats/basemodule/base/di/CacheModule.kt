@@ -1,5 +1,7 @@
 package com.example.bookingflats.basemodule.base.di
 
+import com.example.bookingflats.basemodule.base.data.local.DataBaseImpl
+import com.example.bookingflats.basemodule.base.data.local.IDataBase
 import com.example.bookingflats.basemodule.base.data.local.SharedPreferencesInterface
 import com.example.bookingflats.basemodule.base.data.local.SharedPreferencesUtils
 import org.koin.core.module.Module
@@ -17,6 +19,9 @@ object CacheModule {
             single(named(QUALIFIER_SHARED_PREFERENCES_NAME)) { sharedPreferencesName }
             single<SharedPreferencesInterface> {
                 SharedPreferencesUtils(get(), get(), sharedPreferencesName)
+            }
+            single<IDataBase> {
+                DataBaseImpl(get())
             }
         }
     }

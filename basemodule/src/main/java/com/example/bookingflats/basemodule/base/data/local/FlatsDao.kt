@@ -1,11 +1,11 @@
-package com.example.bookingflats.common.data.local.db
+package com.example.bookingflats.basemodule.base.data.local
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.bookingflats.features.flats.module.domain.FlatDbEntity
+import com.example.bookingflats.basemodule.base.data.model.FlatDbEntity
 
 @Dao
 interface FlatsDao {
@@ -19,21 +19,18 @@ interface FlatsDao {
     @Query(
         """SELECT * FROM flats 
         WHERE (:numberOfBeds IS NULL OR bedrooms LIKE :numberOfBeds) 
-        AND (:startDate IS NULL OR :startDate NOT BETWEEN startDate AND endDate) 
-        AND (:endDate IS NULL OR :endDate NOT BETWEEN startDate AND endDate)
+        AND ( :bookedDate  > bookedDate) 
          ORDER BY distance ASC"""
     )
     fun flatsByQuery(
         numberOfBeds: Int? = null,
-        startDate: Long? = null,
-        endDate: Long? = null
+        bookedDate: Long? = null
     ): PagingSource<Int, FlatDbEntity>
 
-    @Query("UPDATE flats SET startDate = :startDate, endDate=:endDate WHERE id = :id")
+    @Query("UPDATE flats SET bookedDate = :bookedDate WHERE id= :id")
     fun updateFlat(
-        startDate: Long,
-        endDate: Long,
-        id: Int
+        bookedDate: Long,
+        id: String
     )
 
     @Query("SELECT * from flats WHERE id= :id")

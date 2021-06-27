@@ -1,14 +1,14 @@
-package com.example.bookingflats.common.data.local.db
+package com.example.bookingflats.basemodule.base.data.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.bookingflats.features.flats.module.domain.FlatDbEntity
+import com.example.bookingflats.basemodule.base.data.model.FlatDbEntity
 
 @Database(
     entities = [FlatDbEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class BookingFlatsDatabase : RoomDatabase() {
@@ -31,6 +31,7 @@ abstract class BookingFlatsDatabase : RoomDatabase() {
                 context.applicationContext,
                 BookingFlatsDatabase::class.java, "bookingFlats.db"
             )
+                .fallbackToDestructiveMigration()
                 .build()
     }
 }

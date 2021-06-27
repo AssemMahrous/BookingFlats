@@ -21,4 +21,11 @@ class FlatsRepository(
         }
         )
     }
+
+    override fun bookFlat(startDate: Long, endDate: Long, id: String) {
+        localDataSource.dataBase.updateFlat(
+            bookedDate = startDate + endDate,
+            id = id
+        )
+    }
 }

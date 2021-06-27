@@ -1,8 +1,9 @@
 package com.example.bookingflats.features.flats.module
 
+import com.example.bookingflats.basemodule.base.data.model.FlatDbEntity
+import com.example.bookingflats.basemodule.utils.currentTimeToLong
 import com.example.bookingflats.basemodule.utils.getDistance
 import com.example.bookingflats.features.flats.module.domain.Flat
-import com.example.bookingflats.features.flats.module.domain.FlatDbEntity
 import com.example.bookingflats.features.flats.module.response.FlatResponse
 import com.example.bookingflats.features.flats.module.view.FlatView
 
@@ -35,7 +36,8 @@ object Mapper {
             latitude = latitude,
             longitude = longitude,
             bedrooms = bedrooms,
-            distance = getDistance(userLng, userLat, longitude, latitude)
+            distance = getDistance(userLng, userLat, longitude, latitude),
+            bookedDate = currentTimeToLong()
         )
 
     fun FlatDbEntity.toFlatView() =
