@@ -19,17 +19,20 @@ interface FlatsDao {
     @Query(
         """SELECT * FROM flats 
         WHERE (:numberOfBeds IS NULL OR bedrooms LIKE :numberOfBeds) 
-        AND ( :bookedDate  > bookedDate) 
-         ORDER BY distance ASC"""
+        AND (:startDate NOT BETWEEN startDate AND endDate) 
+        AND ( :endDate NOT BETWEEN startDate AND endDate)
+        ORDER BY distance ASC"""
     )
     fun flatsByQuery(
         numberOfBeds: Int? = null,
-        bookedDate: Long? = null
+        startDate: Long? = null,
+        endDate: Long? = null
     ): PagingSource<Int, FlatDbEntity>
 
-    @Query("UPDATE flats SET bookedDate = :bookedDate WHERE id= :id")
+    @Query("UPDATE flats SET startDate = :startDate,endDate=:endDate  WHERE id= :id")
     fun updateFlat(
-        bookedDate: Long,
+        startDate: Long,
+        endDate: Long,
         id: String
     )
 

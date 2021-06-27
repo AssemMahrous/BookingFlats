@@ -47,7 +47,8 @@ class FlatsViewModel(
             BookingFlatsDatabase.getInstance(applicationContext.context)
                 .flatsDao().flatsByQuery(
                     numberOfBeds = numberOfBeds,
-                    bookedDate = startDate!! + endDate!!
+                    startDate = startDate,
+                    endDate = endDate
                 )
         }
         @OptIn(ExperimentalPagingApi::class)

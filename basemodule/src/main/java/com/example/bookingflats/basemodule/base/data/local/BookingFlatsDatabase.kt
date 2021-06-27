@@ -8,7 +8,7 @@ import com.example.bookingflats.basemodule.base.data.model.FlatDbEntity
 
 @Database(
     entities = [FlatDbEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class BookingFlatsDatabase : RoomDatabase() {

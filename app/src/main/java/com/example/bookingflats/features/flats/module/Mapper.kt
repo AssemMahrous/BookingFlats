@@ -24,11 +24,6 @@ object Mapper {
             distance = getDistance(userLng, userLat, longitude, latitude)
         )
 
-    fun List<Flat>.toFLatsDbEntity(userLat: Double, userLng: Double) =
-        map {
-            it.toFlatDbEntity(userLat, userLng)
-        }
-
     fun Flat.toFlatDbEntity(userLat: Double, userLng: Double) =
         FlatDbEntity(
             id = id,
@@ -37,7 +32,8 @@ object Mapper {
             longitude = longitude,
             bedrooms = bedrooms,
             distance = getDistance(userLng, userLat, longitude, latitude),
-            bookedDate = currentTimeToLong()
+            startDate = currentTimeToLong(),
+            endDate = currentTimeToLong()
         )
 
     fun FlatDbEntity.toFlatView() =

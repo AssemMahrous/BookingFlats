@@ -18,10 +18,11 @@ class DataBaseImpl constructor(
         ioExecutor = Executors.newSingleThreadExecutor()
     }
 
-    override fun updateFlat(id: String, bookedDate: Long) {
+    override fun updateFlat(id: String, startDate: Long, endDate: Long) {
         ioExecutor.execute {
             flatsDao.updateFlat(
-                bookedDate = bookedDate,
+                startDate = startDate,
+                endDate = endDate,
                 id = id
             )
         }

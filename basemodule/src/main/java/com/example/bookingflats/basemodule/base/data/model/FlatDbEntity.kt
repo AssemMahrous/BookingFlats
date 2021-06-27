@@ -11,6 +11,7 @@ data class FlatDbEntity(
     @field:SerializedName("latitude") val latitude: Double,
     @field:SerializedName("longitude") val longitude: Double,
     @field:SerializedName("bedrooms") val bedrooms: Int,
-    @field:SerializedName("BookedDate") val bookedDate: Long? = null,
+    @field:SerializedName("startDate") val startDate: Long? = null,
+    @field:SerializedName("endDate") val endDate: Long? = null,
     @field:SerializedName("distance") val distance: Double,
 )
