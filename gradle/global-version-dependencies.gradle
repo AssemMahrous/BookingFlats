@@ -8,6 +8,9 @@ ext {
     // Kotlin
     kotlinVersion = "1.4.10"
 
+    //safeArgs
+    safeArgs="2.3.2"
+
     // Gradle
     toolsGradle = "4.1.0"
     googleServices = "4.3.4"

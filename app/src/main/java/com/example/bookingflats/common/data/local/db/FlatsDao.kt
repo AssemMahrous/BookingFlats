@@ -13,6 +13,9 @@ interface FlatsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(repos: List<FlatDbEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(flatDbEntity: FlatDbEntity)
+
     @Query(
         """SELECT * FROM flats 
         WHERE (:numberOfBeds IS NULL OR bedrooms LIKE :numberOfBeds) 
@@ -32,6 +35,9 @@ interface FlatsDao {
         endDate: Long,
         id: Int
     )
+
+    @Query("SELECT * from flats WHERE id= :id")
+    fun getItemById(id: String): List<FlatDbEntity>
 
     @Query("DELETE FROM flats")
     suspend fun clearFlats()

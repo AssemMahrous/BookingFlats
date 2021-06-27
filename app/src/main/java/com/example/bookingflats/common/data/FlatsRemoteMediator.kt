@@ -23,7 +23,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.bookingflats.basemodule.Result
 import com.example.bookingflats.common.data.local.db.BookingFlatsDatabase
-import com.example.bookingflats.features.flats.module.Mapper.toFLatsDbEntity
+import com.example.bookingflats.features.flats.module.Mapper.toFlatDbEntity
 import com.example.bookingflats.features.flats.module.domain.Flat
 import com.example.bookingflats.features.flats.module.domain.FlatDbEntity
 import retrofit2.HttpException
@@ -59,19 +59,18 @@ class FlatsRemoteMediator(
                 is Result.Success -> {
                     val data = apiResponse.data
                     bookingFlatsDatabase.withTransaction {
-                        // clear all tables in the database
-
-                        bookingFlatsDatabase.flatsDao()
-                            .insertAll(data.toFLatsDbEntity(userLat, userLng))
+                        for (item in data) {
+                            val fetchedItem = bookingFlatsDatabase.flatsDao().getItemById(item.id)
+                            if (fetchedItem.isEmpty())
+                                bookingFlatsDatabase.flatsDao()
+                                    .insert(item.toFlatDbEntity(userLat, userLng))
+                        }
                     }
                     MediatorResult.Success(endOfPaginationReached = true)
                 }
                 is Result.Error -> MediatorResult.Error(apiResponse.exception)
             })
-//            val repos = apiResponse
-//            val endOfPaginationReached = repos.isEmpty()
-//
-//            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+
         } catch (exception: IOException) {
             return MediatorResult.Error(exception)
         } catch (exception: HttpException) {

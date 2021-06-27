@@ -2,22 +2,18 @@ package com.example.bookingflats.basemodule.utils
 
 import android.app.Activity
 import android.content.Context
-import android.net.Uri
 import android.os.Build
-import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.bookingflats.basemodule.BuildConfig
-import com.example.bookingflats.basemodule.R
 import com.example.bookingflats.basemodule.base.data.model.ApplicationMessage
 import com.example.bookingflats.basemodule.base.di.AppConfigurationModule.isDebug
+import com.google.android.material.datepicker.CalendarConstraints
 import okhttp3.Headers
 import okhttp3.internal.toHeaderList
 import org.koin.core.KoinComponent
@@ -58,95 +54,12 @@ inline fun <reified T> getKoinInstance(qualifier: Qualifier? = null): Lazy<T> {
 
 val <T> T.exhaustive: T get() = this
 
-@JvmOverloads
-fun NavController.navigateTo(id: Int, bundle: Bundle? = null, navOptions: NavOptions? = null) {
-    navigate(id, bundle, navOptions ?: getNavOptionsBuilder().build())
-}
-
-@JvmOverloads
-fun NavController.navigateTo(id: Int, bundle: Bundle? = null, popCurrentDestination: Boolean) {
-    currentDestination?.takeIf { popCurrentDestination }?.let { currentDestination ->
-        navigate(
-            id,
-            bundle,
-            getNavOptionsBuilder()
-                .setPopUpTo(currentDestination.id, true)
-                .build()
-        )
-    } ?: navigate(id, bundle, getNavOptionsBuilder().build())
-}
-
-@JvmOverloads
-fun NavController.navigateTo(deepLink: Uri, navOptions: NavOptions? = null) {
-    if (graph.hasDeepLink(deepLink)) navigate(deepLink, navOptions
-        ?: getNavOptionsBuilder().build())
-}
-
-@JvmOverloads
-fun NavController.navigateTo(deepLink: Uri, popCurrentDestination: Boolean) {
-    currentDestination?.takeIf { popCurrentDestination }?.let { currentDestination ->
-        navigateTo(
-            deepLink,
-            getNavOptionsBuilder()
-                .setPopUpTo(currentDestination.id, true)
-                .build()
-        )
-    } ?: navigateTo(deepLink)
-}
-
-@JvmOverloads
-fun NavController.navigateTo(deepLink: String?, navOptions: NavOptions? = null) {
-    deepLink?.let { navigateTo(Uri.parse(it), navOptions) }
-}
-
-fun NavController.navigateTo(deepLink: String?, popCurrentDestination: Boolean) {
-    currentDestination?.takeIf { popCurrentDestination }?.let { currentDestination ->
-        navigateTo(
-            deepLink,
-            getNavOptionsBuilder()
-                .setPopUpTo(currentDestination.id, true)
-                .build()
-        )
-    } ?: navigateTo(deepLink)
-}
-
-@JvmOverloads
-fun NavController.navigateTo(navDirections: NavDirections, navOptions: NavOptions? = null) {
-    navigate(navDirections, navOptions ?: getNavOptionsBuilder().build())
-}
-
-fun NavController.popBackStackOrFinish(fragment: Fragment) {
-    if (!popBackStack()) fragment.requireActivity().finish()
-}
-
-fun getNavOptionsBuilder() = NavOptions.Builder()
-    .setEnterAnim(R.anim.nav_default_enter_anim)
-    .setExitAnim(R.anim.nav_default_exit_anim)
-    .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
-    .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
-
 fun <T> Fragment.setNavigationResult(key: String, value: T) {
     findNavController().previousBackStackEntry?.savedStateHandle?.set(key, value)
 }
 
-fun <T> Fragment.getNavigationResult(@IdRes id: Int, key: String, onResult: (result: T) -> Unit) {
-    val navBackStackEntry = findNavController().getBackStackEntry(id)
-
-    val observer = LifecycleEventObserver { _, event ->
-        if (event == Lifecycle.Event.ON_RESUME && navBackStackEntry.savedStateHandle.contains(key)) {
-            val result = navBackStackEntry.savedStateHandle.get<T>(key)
-            result?.let(onResult)
-            navBackStackEntry.savedStateHandle.remove<T>(key)
-        }
-    }
-    navBackStackEntry.lifecycle.addObserver(observer)
-
-    viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
-        if (event == Lifecycle.Event.ON_DESTROY) {
-            navBackStackEntry.lifecycle.removeObserver(observer)
-        }
-    })
-}
+inline fun <reified T> Fragment.getNavigationResult(key: String = "result") =
+    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
 
 fun Any.className(): String = this::class.java.simpleName
 
@@ -229,4 +142,71 @@ fun getDistance(lng1: Double, lat1: Double, lng2: Double, lat2: Double): Double 
     val meterConversion = 1609
 
     return df.format(distance * meterConversion).toDouble()
+}
+
+fun limitRange(): CalendarConstraints.Builder {
+    val constraintsBuilderRange = CalendarConstraints.Builder()
+    val calendarStart = Calendar.getInstance()
+    val calendarEnd = Calendar.getInstance()
+    val year = calendarStart.get(Calendar.YEAR)
+    val startMonth = calendarStart.get(Calendar.MONTH)
+    val startDate = calendarStart.get(Calendar.DAY_OF_MONTH)
+    val endMonth = startMonth + 1
+    val endDate = startDate + 10
+    calendarStart[year, startMonth] = startDate
+    calendarEnd[year, endMonth] = endDate
+    val minDate = calendarStart.timeInMillis
+    val maxDate = calendarEnd.timeInMillis
+    constraintsBuilderRange.setStart(minDate)
+    constraintsBuilderRange.setEnd(maxDate)
+    constraintsBuilderRange.setValidator(RangeValidator(minDate, maxDate))
+    return constraintsBuilderRange
+}
+
+internal class RangeValidator : CalendarConstraints.DateValidator {
+    var minDate: Long
+    var maxDate: Long
+
+    constructor(minDate: Long, maxDate: Long) {
+        this.minDate = minDate
+        this.maxDate = maxDate
+    }
+
+    constructor(parcel: Parcel) {
+        minDate = parcel.readLong()
+        maxDate = parcel.readLong()
+    }
+
+    override fun isValid(date: Long): Boolean {
+        return !(minDate > date || maxDate < date)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeLong(minDate)
+        dest.writeLong(maxDate)
+    }
+
+    companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<RangeValidator?> =
+            object : Parcelable.Creator<RangeValidator?> {
+                override fun createFromParcel(parcel: Parcel): RangeValidator? {
+                    return RangeValidator(parcel)
+                }
+
+                override fun newArray(size: Int): Array<RangeValidator?> {
+                    return arrayOfNulls(size)
+                }
+            }
+    }
+}
+
+fun convertLongToTime(time: Long): String {
+    val date = Date(time)
+    val format = SimpleDateFormat("yyyy.MM.dd")
+    return format.format(date)
 }

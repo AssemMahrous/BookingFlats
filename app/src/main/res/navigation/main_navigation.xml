@@ -8,6 +8,16 @@
         android:id="@+id/nav_flats_fragment"
         android:name="com.example.bookingflats.features.flats.screens.flats.FlatsFragment"
         android:label="fragment_flats"
-        tools:layout="@layout/fragment_flats" />
+        tools:layout="@layout/fragment_flats">
+        <action
+            android:id="@+id/action_nav_flats_fragment_to_nav_filter_fragment"
+            app:destination="@id/nav_filter_fragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/nav_filter_fragment"
+        android:name="com.example.bookingflats.features.flats.screens.filter.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" />
 
 </navigation>

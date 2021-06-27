@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.example.bookingflats.basemodule.utils.className
-import com.example.bookingflats.basemodule.utils.navigateTo
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.koin.getViewModel
 import timber.log.Timber
@@ -81,18 +80,6 @@ abstract class BaseFragment<ViewModel : BaseViewModel> : Fragment(), IBaseView<V
      * You can extend this method to safely initialize your views.
      */
     protected open fun initializeViews() = Unit // No-op, just an initialization placeholder
-
-    protected fun navigateTo(destinationId: Int, popCurrentDestination: Boolean = false) {
-        findNavController().navigateTo(destinationId, popCurrentDestination = popCurrentDestination)
-    }
-
-    protected fun navigateTo(deepLink: String?, popCurrentDestination: Boolean = false) {
-        if (!deepLink.isNullOrEmpty()) {
-            findNavController().navigateTo(deepLink, popCurrentDestination = popCurrentDestination)
-        } else {
-            Timber.w("Tried to open an empty deep-link")
-        }
-    }
 
     /**
      * Exposes a result [value] with the given [key] to a previous fragment on the stack.

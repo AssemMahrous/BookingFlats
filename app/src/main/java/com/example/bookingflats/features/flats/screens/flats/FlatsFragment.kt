@@ -7,14 +7,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.bookingflats.R
 import com.example.bookingflats.basemodule.base.data.local.IPermissionsManager
 import com.example.bookingflats.basemodule.base.platform.BaseFragment
 import com.example.bookingflats.basemodule.utils.getKoinInstance
+import com.example.bookingflats.basemodule.utils.getNavigationResult
 import com.example.bookingflats.basemodule.utils.viewbinding.viewBinding
 import com.example.bookingflats.databinding.FragmentFlatsBinding
+import com.example.bookingflats.features.flats.module.domain.FilterOption
 import com.example.bookingflats.features.flats.screens.BaseLoadStateAdapter
+import com.example.bookingflats.features.flats.screens.filter.FilterFragment.Companion.REQUEST_KEY_FILTER
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -44,7 +48,18 @@ class FlatsFragment : BaseFragment<FlatsViewModel>() {
         initLocationPermission()
 
         binding.filter.setOnClickListener {
+            findNavController().navigate(
+                FlatsFragmentDirections.actionNavFlatsFragmentToNavFilterFragment()
+            )
+        }
 
+        getNavigationResult<FilterOption>(REQUEST_KEY_FILTER)?.observe(viewLifecycleOwner) {
+            getData(
+                it.numberOfBedrooms,
+                it.startDate,
+                it.endDate,
+                permissionsManager.checkLocationPermission()
+            )
         }
     }
 

@@ -10,6 +10,7 @@ import com.example.bookingflats.common.data.remote.IFlatsRemoteDataSource
 import com.example.bookingflats.features.flats.module.data.FlatsRepository
 import com.example.bookingflats.features.flats.module.data.IFlatsRepository
 import com.example.bookingflats.features.flats.module.usecase.GetFlatsUseCase
+import com.example.bookingflats.features.flats.screens.filter.FilterViewModel
 import com.example.bookingflats.features.flats.screens.flats.FlatsViewModel
 import com.example.bookingflats.features.flats.screens.main.MainViewModel
 import org.koin.androidx.experimental.dsl.viewModel
@@ -36,6 +37,7 @@ object FeaturesKoinModules {
                 //view models
                 viewModel<MainViewModel>()
                 viewModel<FlatsViewModel>()
+                viewModel<FilterViewModel>()
 
                 //use cases
                 factory<GetFlatsUseCase>()
