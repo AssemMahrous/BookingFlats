@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "75863156641",
+    "project_id": "booking-flats",
+    "storage_bucket": "booking-flats.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75863156641:android:f73a4a3da846745a9acde0",
+        "android_client_info": {
+          "package_name": "com.example.bookingflats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75863156641-tl807vp39q5qcofp1c339sfjml2m7g4b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzevzvsWb6PNVDOtBMUgdWCFXU5O4RUhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75863156641-tl807vp39q5qcofp1c339sfjml2m7g4b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75863156641:android:7c7aafb10f02ffb69acde0",
+        "android_client_info": {
+          "package_name": "com.example.bookingflats.beta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75863156641-tl807vp39q5qcofp1c339sfjml2m7g4b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzevzvsWb6PNVDOtBMUgdWCFXU5O4RUhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75863156641-tl807vp39q5qcofp1c339sfjml2m7g4b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75863156641:android:53895dbbceff93759acde0",
+        "android_client_info": {
+          "package_name": "com.example.bookingflats.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75863156641-tl807vp39q5qcofp1c339sfjml2m7g4b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzevzvsWb6PNVDOtBMUgdWCFXU5O4RUhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75863156641-tl807vp39q5qcofp1c339sfjml2m7g4b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
